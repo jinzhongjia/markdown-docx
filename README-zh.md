@@ -261,6 +261,49 @@ markdown-docx -i input.md -o output.docx
 
 未指定输出文件时，默认使用输入文件名并添加 `.docx` 后缀。
 
+## 开发与发布
+
+### 开发脚本
+
+```bash
+# 开发模式（热重载）
+pnpm run dev
+
+# 构建项目
+pnpm run build
+
+# 运行测试
+pnpm run test
+
+# 运行测试并生成覆盖率报告
+pnpm run test:coverage
+```
+
+### 发布管理
+
+本项目使用 [release-it](https://github.com/release-it/release-it) 进行自动化发布：
+
+```bash
+# 测试发布流程（dry-run 模式）
+pnpm run release:dry
+
+# 发布（自动选择版本递增）
+pnpm run release
+
+# 发布特定版本类型
+pnpm run release:patch  # 1.0.0 -> 1.0.1
+pnpm run release:minor  # 1.0.0 -> 1.1.0  
+pnpm run release:major  # 1.0.0 -> 2.0.0
+```
+
+发布流程会自动执行：
+- 发布前运行测试
+- 构建项目
+- 更新 package.json 中的版本号
+- 创建 git tag 和 commit
+- 发布到 npm
+- 创建 GitHub release 和 changelog
+
 ## 支持的 Markdown 特性
 
 - 标题（H1-H6）

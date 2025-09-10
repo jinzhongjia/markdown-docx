@@ -37,7 +37,7 @@ export const downloadImage: MarkdownImageAdapter = async function (token: Tokens
       height,
     }
   } catch (error) {
-    console.error(`[MarkdownDocx] downloadImageError`, error)
+    console.warn(`[MarkdownDocx] Failed to download image from ${src}:`, error instanceof Error ? error.message : error)
     return null
   }
 }
@@ -46,7 +46,7 @@ function loadImage (src: string) {
   if (isHttp(src)) {
     return new Promise<Buffer>((resolve, reject) => {
       const agent = src.startsWith('https') ? https : http
-      agent.get(src, (res) => {
+      const request = agent.get(src, (res) => {
         const chunks: Buffer[] = []
         res.on('data', (chunk) => {
           chunks.push(chunk)
@@ -57,8 +57,19 @@ function loadImage (src: string) {
           resolve(buffer)
         })
         res.on('error', (err) => {
-          reject(new Error(`Failed to load image: ${err.message || err}`))
+          reject(new Error(`Failed to load image from ${src}: ${err.message || err}`))
         })
+      })
+      
+      // Handle request errors (DNS, connection, etc.)
+      request.on('error', (err) => {
+        reject(new Error(`Failed to request image from ${src}: ${err.message || err}`))
+      })
+      
+      // Set timeout to prevent hanging
+      request.setTimeout(10000, () => {
+        request.destroy()
+        reject(new Error(`Request timeout for image: ${src}`))
       })
     })
   }

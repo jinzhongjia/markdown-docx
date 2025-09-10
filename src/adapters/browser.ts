@@ -41,7 +41,7 @@ export const downloadImage: MarkdownImageAdapter = async function (token: Tokens
       height,
     }
   } catch (error) {
-    console.error(`[MarkdownDocx] downloadImageError`, error)
+    console.warn(`[MarkdownDocx] Failed to download image from ${href}:`, error instanceof Error ? error.message : error)
     return null
   }
 }
@@ -59,7 +59,7 @@ async function loadImageSize (blob: Blob) {
     }
     image.onerror = (err: any) => {
       URL.revokeObjectURL(image.src)
-      reject(new Error(`Failed to load image: ${err.message || err}`))
+      reject(new Error(`Failed to load image from blob: ${err.message || err}`))
     }
     image.src = URL.createObjectURL(blob)
   })

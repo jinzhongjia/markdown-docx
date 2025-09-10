@@ -23,7 +23,7 @@ export class MarkdownDocx  {
     return new MarkdownDocx(markdown, _options).toDocument()
   }
 
-  protected _imageStore = new Map<string, MarkdownImageItem>()
+  protected _imageStore = new Map<string, MarkdownImageItem | null>()
 
   private footnotes:Record<string, { children: Paragraph[]}> = {}
 
@@ -94,20 +94,34 @@ export class MarkdownDocx  {
       throw new Error('MarkdownDocx.imageAdapter is not a function')
     }
     const store = this._imageStore
-    const promises = tokens.map((token) => {
+    const promises = tokens.map(async (token) => {
       if (store.has(token.href)) {
         return Promise.resolve(store.get(token.href))
       }
 
-      const cache: MarkdownImageItem = {} as unknown as MarkdownImageItem
-      store.set(token.href, cache)
-
-      return imageAdapter(token).then(item => {
-        Object.assign(cache, item)
-        return cache
-      })
+      try {
+        const item = await imageAdapter(token)
+        if (item) {
+          store.set(token.href, item)
+          return item
+        } else {
+          // Mark as failed but don't throw error
+          store.set(token.href, null)
+          return null
+        }
+      } catch (error) {
+        console.warn(`[MarkdownDocx] Failed to download image: ${token.href}`, error)
+        // Mark as failed but don't throw error
+        store.set(token.href, null)
+        return null
+      }
     })
-    return Promise.all(promises)
+    
+    // Use Promise.allSettled instead of Promise.all to handle individual failures
+    const results = await Promise.allSettled(promises)
+    return results.map(result => 
+      result.status === 'fulfilled' ? result.value : null
+    )
   }
 
   public async toBlocks(tokens: IBlockToken[], attr: IBlockAttr = {}): Promise<FileChild[]> {

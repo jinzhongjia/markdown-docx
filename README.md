@@ -263,6 +263,49 @@ markdown-docx -i input.md -o output.docx
 
 If the output file is not specified, it will use the input filename with a `.docx` extension.
 
+## Development & Release
+
+### Development Scripts
+
+```bash
+# Development mode with hot reload
+pnpm run dev
+
+# Build the project
+pnpm run build
+
+# Run tests
+pnpm run test
+
+# Run tests with coverage
+pnpm run test:coverage
+```
+
+### Release Management
+
+This project uses [release-it](https://github.com/release-it/release-it) for automated releases:
+
+```bash
+# Test release process (dry-run)
+pnpm run release:dry
+
+# Release with automatic version increment
+pnpm run release
+
+# Release specific version types
+pnpm run release:patch  # 1.0.0 -> 1.0.1
+pnpm run release:minor  # 1.0.0 -> 1.1.0  
+pnpm run release:major  # 1.0.0 -> 2.0.0
+```
+
+The release process automatically:
+- Runs tests before release
+- Builds the project
+- Updates version in package.json
+- Creates git tag and commit
+- Publishes to npm
+- Creates GitHub release with changelog
+
 ## Supported Markdown Features
 
 - Headings (H1-H6)
