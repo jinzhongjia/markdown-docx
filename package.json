@@ -1,6 +1,6 @@
 {
   "name": "@jinzhongjia/markdown-docx",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A powerful TypeScript library that converts Markdown files to DOCX format with high fidelity",
   "scripts": {
     "dev": "tsup --watch",
