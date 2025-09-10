@@ -2,8 +2,8 @@
 
 功能强大的 TypeScript 库，高保真地将 Markdown 文件转换为 DOCX 格式，支持浏览器和 Node.js 环境。
 
-[![npm 版本](https://img.shields.io/npm/v/markdown-docx.svg)](https://www.npmjs.com/package/markdown-docx)
-[![许可协议](https://img.shields.io/npm/l/markdown-docx.svg)](https://github.com/vace/markdown-docx/blob/main/LICENSE)
+[![npm 版本](https://img.shields.io/npm/v/@jinzhongjia/markdown-docx.svg)](https://www.npmjs.com/package/@jinzhongjia/markdown-docx)
+[![许可协议](https://img.shields.io/npm/l/@jinzhongjia/markdown-docx.svg)](https://github.com/jinzhongjia/markdown-docx/blob/main/LICENSE)
 
 ## 在线演示
 
@@ -42,13 +42,13 @@
 
 ```bash
 # 使用 npm
-npm install markdown-docx
+npm install @jinzhongjia/markdown-docx
 
 # 使用 yarn
-yarn add markdown-docx
+yarn add @jinzhongjia/markdown-docx
 
 # 使用 pnpm
-pnpm add markdown-docx
+pnpm add @jinzhongjia/markdown-docx
 ```
 
 ## 基础用法
@@ -57,7 +57,7 @@ pnpm add markdown-docx
 
 ```javascript
 import fs from 'node:fs/promises';
-import markdownDocx, { Packer } from 'markdown-docx';
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx';
 
 async function convertMarkdownToDocx() {
   // 读取 Markdown 内容
@@ -79,7 +79,7 @@ convertMarkdownToDocx();
 ### 浏览器环境
 
 ```javascript
-import markdownDocx, { Packer } from 'markdown-docx';
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx';
 
 async function convertMarkdownToDocx(markdownText) {
   // 转换为 DOCX
@@ -113,7 +113,7 @@ document.getElementById('convert-btn').addEventListener('click', () => {
 通过 `MarkdownDocx` 类实现更精细的控制：
 
 ```javascript
-import { MarkdownDocx, Packer } from 'markdown-docx';
+import { MarkdownDocx, Packer } from '@jinzhongjia/markdown-docx';
 import fs from 'node:fs/promises';
 
 async function convertWithOptions() {
@@ -144,7 +144,7 @@ async function convertWithOptions() {
 将 Markdown 转换为 DOCX 的主要函数。
 
 ```typescript
-import markdownDocx, { Packer } from 'markdown-docx'
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx'
 
 const doc = await markdownDocx(markdown, options)
 const buffer = await Packer.toBuffer(doc)
@@ -162,7 +162,7 @@ const buffer = await Packer.toBuffer(doc)
 等同于主函数的静态方法。
 
 ```typescript
-import { MarkdownDocx } from 'markdown-docx'
+import { MarkdownDocx } from '@jinzhongjia/markdown-docx'
 
 const doc = await MarkdownDocx.covert(markdown, options)
 ```
@@ -172,7 +172,7 @@ const doc = await MarkdownDocx.covert(markdown, options)
 #### 构造函数
 
 ```typescript
-import { MarkdownDocx } from 'markdown-docx'
+import { MarkdownDocx } from '@jinzhongjia/markdown-docx'
 
 const converter = new MarkdownDocx(markdown, options)
 ```
@@ -250,7 +250,7 @@ const sections = await converter.toSection()
 
 ```bash
 # 全局安装
-npm install -g markdown-docx
+npm install -g @jinzhongjia/markdown-docx
 
 # 基础用法
 markdown-docx --input input.md --output output.docx
@@ -282,7 +282,7 @@ markdown-docx -i input.md -o output.docx
 启用带有自定义主题和选项的高级语法高亮：
 
 ```javascript
-import markdownDocx, { Packer } from 'markdown-docx'
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx'
 
 const doc = await markdownDocx(markdown, {
   codeHighlight: {
@@ -303,7 +303,7 @@ const buffer = await Packer.toBuffer(doc)
 设置文档元数据和属性：
 
 ```javascript
-import { MarkdownDocx, Packer } from 'markdown-docx'
+import { MarkdownDocx, Packer } from '@jinzhongjia/markdown-docx'
 
 const converter = new MarkdownDocx(markdown, {
   document: {
@@ -339,7 +339,7 @@ const doc = await markdownDocx(markdown, {
 创建用于专门图片处理的自定义图片适配器：
 
 ```typescript
-import { MarkdownImageAdapter, MarkdownImageItem } from 'markdown-docx'
+import { MarkdownImageAdapter, MarkdownImageItem } from '@jinzhongjia/markdown-docx'
 
 const customImageAdapter: MarkdownImageAdapter = async (token) => {
   // 自定义图片处理逻辑
@@ -369,7 +369,7 @@ const doc = await markdownDocx(markdown, {
 ```javascript
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import markdownDocx, { Packer } from 'markdown-docx'
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx'
 
 async function batchConvert(inputDir, outputDir) {
   const files = await fs.readdir(inputDir)
@@ -420,7 +420,7 @@ interface MarkdownImageItem {
 您可以通过修改内置样式来自定义生成的 DOCX 文档外观：
 
 ```javascript
-import { styles, colors, classes } from 'markdown-docx'
+import { styles, colors, classes } from '@jinzhongjia/markdown-docx'
 
 // 自定义超链接颜色
 styles.default.hyperlink.run.color = '0077cc'
@@ -500,7 +500,7 @@ styles.markdown.code.run.size = 20 // 10pt
 
 ## 示例
 
-更多示例请查看仓库中的 [tests 目录](https://github.com/vace/markdown-docx/tree/main/tests)。
+更多示例请查看仓库中的 [tests 目录](https://github.com/jinzhongjia/markdown-docx/tree/main/tests)。
 
 ## 许可协议
 

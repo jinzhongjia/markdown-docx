@@ -1,21 +1,25 @@
 {
-  "name": "markdown-docx",
-  "version": "1.2.0",
-  "description": "Convert Markdown file to DOCX format",
+  "name": "@jinzhongjia/markdown-docx",
+  "version": "1.0.0",
+  "description": "A powerful TypeScript library that converts Markdown files to DOCX format with high fidelity",
   "scripts": {
     "dev": "tsup --stub",
     "build": "tsup",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "pnpm run build",
-    "release-it": "release-it"
+    "release": "release-it",
+    "release:patch": "release-it patch",
+    "release:minor": "release-it minor",
+    "release:major": "release-it major",
+    "release:dry": "release-it --dry-run"
   },
   "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "browser": "dist/index.browser.mjs",
-  "homepage": "https://github.com/vace/markdown-docx",
+  "homepage": "https://github.com/jinzhongjia/markdown-docx",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -42,22 +46,26 @@
     "markdown-docx",
     "markdown-to-word",
     "markdown-to-doc",
-    "markdown-to-word-doc"
+    "markdown-to-word-doc",
+    "typescript",
+    "syntax-highlighting",
+    "document-conversion"
   ],
   "author": {
-    "name": "Vace",
-    "email": "ocdo@qq.com",
-    "url": "https://github.com/vace"
+    "name": "jinzhongjia",
+    "email": "mail@nvimer.org",
+    "url": "https://github.com/jinzhongjia"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vace/markdown-docx.git"
+    "url": "https://github.com/jinzhongjia/markdown-docx.git"
   },
   "license": "MIT",
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.3",
     "@types/node": "^22.14.0",
+    "release-it": "^19.0.4",
     "tsup": "^8.4.0",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1"

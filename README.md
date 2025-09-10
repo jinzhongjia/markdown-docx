@@ -4,8 +4,8 @@ A powerful TypeScript library that converts Markdown files to DOCX format with h
 
 功能强大的 TypeScript 库，高保真地将 Markdown 文件转换为 DOCX 格式，支持浏览器和 Node.js 环境。
 
-[![npm version](https://img.shields.io/npm/v/markdown-docx.svg)](https://www.npmjs.com/package/markdown-docx)
-[![License](https://img.shields.io/npm/l/markdown-docx.svg)](https://github.com/vace/markdown-docx/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@jinzhongjia/markdown-docx.svg)](https://www.npmjs.com/package/@jinzhongjia/markdown-docx)
+[![License](https://img.shields.io/npm/l/@jinzhongjia/markdown-docx.svg)](https://github.com/jinzhongjia/markdown-docx/blob/main/LICENSE)
 
 ## Online Demo
 
@@ -44,13 +44,13 @@ A powerful TypeScript library that converts Markdown files to DOCX format with h
 
 ```bash
 # Using npm
-npm install markdown-docx
+npm install @jinzhongjia/markdown-docx
 
 # Using yarn
-yarn add markdown-docx
+yarn add @jinzhongjia/markdown-docx
 
 # Using pnpm
-pnpm add markdown-docx
+pnpm add @jinzhongjia/markdown-docx
 ```
 
 ## Basic Usage
@@ -81,7 +81,7 @@ convertMarkdownToDocx();
 ### Browser
 
 ```javascript
-import markdownDocx, { Packer } from 'markdown-docx';
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx';
 
 async function convertMarkdownToDocx(markdownText) {
   // Convert to docx
@@ -115,7 +115,7 @@ document.getElementById('convert-btn').addEventListener('click', () => {
 For more control over the conversion process, you can use the `MarkdownDocx` class directly:
 
 ```javascript
-import { MarkdownDocx, Packer } from 'markdown-docx';
+import { MarkdownDocx, Packer } from '@jinzhongjia/markdown-docx';
 import fs from 'node:fs/promises';
 
 async function convertWithOptions() {
@@ -146,7 +146,7 @@ async function convertWithOptions() {
 The primary function to convert Markdown to DOCX.
 
 ```typescript
-import markdownDocx, { Packer } from 'markdown-docx'
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx'
 
 const doc = await markdownDocx(markdown, options)
 const buffer = await Packer.toBuffer(doc)
@@ -164,7 +164,7 @@ const buffer = await Packer.toBuffer(doc)
 Static method equivalent to the main function.
 
 ```typescript
-import { MarkdownDocx } from 'markdown-docx'
+import { MarkdownDocx } from '@jinzhongjia/markdown-docx'
 
 const doc = await MarkdownDocx.covert(markdown, options)
 ```
@@ -174,7 +174,7 @@ const doc = await MarkdownDocx.covert(markdown, options)
 #### Constructor
 
 ```typescript
-import { MarkdownDocx } from 'markdown-docx'
+import { MarkdownDocx } from '@jinzhongjia/markdown-docx'
 
 const converter = new MarkdownDocx(markdown, options)
 ```
@@ -252,7 +252,7 @@ markdown-docx includes a CLI tool for converting markdown files from the command
 
 ```bash
 # Install globally
-npm install -g markdown-docx
+npm install -g @jinzhongjia/markdown-docx
 
 # Basic usage
 markdown-docx --input input.md --output output.docx
@@ -284,7 +284,7 @@ If the output file is not specified, it will use the input filename with a `.doc
 Enable advanced syntax highlighting with custom themes and options:
 
 ```javascript
-import markdownDocx, { Packer } from 'markdown-docx'
+import markdownDocx, { Packer } from '@jinzhongjia/markdown-docx'
 
 const doc = await markdownDocx(markdown, {
   codeHighlight: {
@@ -305,7 +305,7 @@ const buffer = await Packer.toBuffer(doc)
 Set document metadata and properties:
 
 ```javascript
-import { MarkdownDocx, Packer } from 'markdown-docx'
+import { MarkdownDocx, Packer } from '@jinzhongjia/markdown-docx'
 
 const converter = new MarkdownDocx(markdown, {
   document: {
@@ -341,7 +341,7 @@ const doc = await markdownDocx(markdown, {
 Create a custom image adapter for specialized image processing:
 
 ```typescript
-import { MarkdownImageAdapter, MarkdownImageItem } from 'markdown-docx'
+import { MarkdownImageAdapter, MarkdownImageItem } from '@jinzhongjia/markdown-docx'
 
 const customImageAdapter: MarkdownImageAdapter = async (token) => {
   // Custom image processing logic
@@ -422,7 +422,7 @@ interface MarkdownImageItem {
 You can customize the appearance of generated DOCX documents by modifying the built-in styles:
 
 ```javascript
-import { styles, colors, classes } from 'markdown-docx'
+import { styles, colors, classes } from '@jinzhongjia/markdown-docx'
 
 // Customize hyperlink color
 styles.default.hyperlink.run.color = '0077cc'
@@ -502,7 +502,7 @@ The library automatically detects the runtime environment and adapts accordingly
 
 ## Examples
 
-For more examples, see the [tests directory](https://github.com/vace/markdown-docx/tree/main/tests) in the repository.
+For more examples, see the [tests directory](https://github.com/jinzhongjia/markdown-docx/tree/main/tests) in the repository.
 
 ## License
 
