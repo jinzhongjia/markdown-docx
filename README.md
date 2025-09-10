@@ -1,8 +1,8 @@
 # markdown-docx
 
-Convert Markdown files to DOCX format with support for both browser and Node.js environments.
+A powerful TypeScript library that converts Markdown files to DOCX format with high fidelity, supporting both browser and Node.js environments.
 
-将 Markdown 文件转换为 DOCX 格式，支持浏览器和 Node.js 环境。
+功能强大的 TypeScript 库，高保真地将 Markdown 文件转换为 DOCX 格式，支持浏览器和 Node.js 环境。
 
 [![npm version](https://img.shields.io/npm/v/markdown-docx.svg)](https://www.npmjs.com/package/markdown-docx)
 [![License](https://img.shields.io/npm/l/markdown-docx.svg)](https://github.com/vace/markdown-docx/blob/main/LICENSE)
@@ -11,17 +11,34 @@ Convert Markdown files to DOCX format with support for both browser and Node.js 
 
 [Markdown to DOCX Converter](https://md-docx.vace.me)
 
+## What is markdown-docx?
+
+`markdown-docx` is a comprehensive solution for converting Markdown documents into Microsoft Word DOCX format while preserving formatting, structure, and styling. Built with TypeScript, it offers both programmatic APIs and command-line tools for seamless integration into any workflow.
+
+### Key Capabilities
+
+- **High-Fidelity Conversion**: Maintains document structure, formatting, and styling
+- **Universal Compatibility**: Works seamlessly in browsers and Node.js environments
+- **Rich Content Support**: Handles images, tables, code blocks, lists, links, and footnotes
+- **Syntax Highlighting**: Advanced code syntax highlighting with 200+ language support
+- **Customizable Styling**: Full control over document appearance and formatting
+- **Image Processing**: Automatic image downloading and format conversion
+- **TypeScript Support**: Full type safety and IntelliSense support
+
 ## Features
 
 ![Screenshot](./tests/screenshots.png)
 
-- 📝 Convert Markdown to DOCX format with high fidelity
-- 🖼️ Support for images (with automatic downloading)
-- 📋 Support for tables, lists, code blocks, and other Markdown elements
-- 🔗 Hyperlinks and footnotes support
-- 💅 Customizable styling options
-- 🌐 Works in both browser and Node.js environments
-- 🖥️ Command-line interface available
+- 📝 **High-Fidelity Conversion**: Convert Markdown to DOCX with precise formatting preservation
+- 🎨 **Syntax Highlighting**: Advanced code block highlighting with 200+ programming languages
+- 🖼️ **Smart Image Handling**: Automatic image downloading, resizing, and format conversion (including WebP)
+- 📋 **Rich Content Support**: Tables, lists, blockquotes, headings, and task lists
+- 🔗 **Advanced Linking**: Hyperlinks, footnotes, and reference-style links
+- 💅 **Customizable Styling**: Complete control over fonts, colors, spacing, and layout
+- 🌐 **Cross-Platform**: Works in browsers, Node.js, and as a CLI tool
+- 🖥️ **Command-Line Interface**: Easy-to-use CLI for batch processing and automation
+- ⚡ **Performance Optimized**: Efficient processing with lazy loading and caching
+- 🔧 **Extensible**: Plugin system for custom renderers and extensions
 
 ## Installation
 
@@ -120,17 +137,112 @@ async function convertWithOptions() {
 }
 ```
 
+## API Reference
+
+### Main Functions
+
+#### `markdownDocx(markdown, options?)`
+
+The primary function to convert Markdown to DOCX.
+
+```typescript
+import markdownDocx, { Packer } from 'markdown-docx'
+
+const doc = await markdownDocx(markdown, options)
+const buffer = await Packer.toBuffer(doc)
+```
+
+**Parameters:**
+
+- `markdown` (string): The Markdown content to convert
+- `options` (MarkdownDocxOptions, optional): Configuration options
+
+**Returns:** Promise\<Document> - A DOCX document object
+
+#### `MarkdownDocx.covert(markdown, options?)`
+
+Static method equivalent to the main function.
+
+```typescript
+import { MarkdownDocx } from 'markdown-docx'
+
+const doc = await MarkdownDocx.covert(markdown, options)
+```
+
+### MarkdownDocx Class
+
+#### Constructor
+
+```typescript
+import { MarkdownDocx } from 'markdown-docx'
+
+const converter = new MarkdownDocx(markdown, options)
+```
+
+#### Methods
+
+##### `toDocument(documentOptions?)`
+
+Converts the Markdown to a DOCX document.
+
+```typescript
+const doc = await converter.toDocument({
+  title: 'My Document',
+  creator: 'Your Name',
+  description: 'Document description',
+  subject: 'Document subject'
+})
+```
+
+**Parameters:**
+
+- `documentOptions` (IPropertiesOptions, optional): Document metadata and properties
+
+##### `toSection()`
+
+Converts Markdown to document sections (advanced usage).
+
+```typescript
+const sections = await converter.toSection()
+```
+
 ## Configuration Options
 
-The `MarkdownDocx` constructor and `markdownDocx` function accept an options object with the following properties:
+### MarkdownDocxOptions
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `imageAdapter` | Function | Built-in adapter | Custom function to handle image processing |
-| `ignoreImage` | Boolean | `false` | When set to `true`, images in markdown will be ignored |
-| `ignoreFootnote` | Boolean | `false` | When set to `true`, footnotes will be ignored |
-| `ignoreHtml` | Boolean | `false` | When set to `true`, inline HTML will be ignored |
-| `gfm` | Boolean | `true` | Enable GitHub Flavored Markdown support |
+| `imageAdapter` | `MarkdownImageAdapter` | Built-in adapter | Custom function to handle image processing |
+| `ignoreImage` | `boolean` | `false` | Skip image processing and rendering |
+| `ignoreFootnote` | `boolean` | `false` | Skip footnote processing and rendering |
+| `ignoreHtml` | `boolean` | `false` | Skip inline HTML processing |
+| `gfm` | `boolean` | `true` | Enable GitHub Flavored Markdown support |
+| `document` | `IPropertiesOptions` | `{}` | Document metadata and properties |
+| `codeHighlight` | `CodeHighlightOptions` | `{}` | Code syntax highlighting configuration |
+
+### CodeHighlightOptions
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Enable/disable syntax highlighting |
+| `theme` | `BundledTheme` | `'github-light'` | Syntax highlighting theme |
+| `languages` | `BundledLanguage[]` | Common languages | Supported programming languages |
+| `showLineNumbers` | `boolean` | `false` | Display line numbers in code blocks |
+| `showLanguage` | `boolean` | `false` | Display language label above code blocks |
+| `autoDetect` | `boolean` | `true` | Automatically detect programming language |
+| `defaultLanguage` | `string` | `'plaintext'` | Fallback language for unspecified code blocks |
+
+### Document Properties (IPropertiesOptions)
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `title` | `string` | Document title |
+| `creator` | `string` | Document author |
+| `description` | `string` | Document description |
+| `subject` | `string` | Document subject |
+| `keywords` | `string` | Document keywords |
+| `lastModifiedBy` | `string` | Last modified by |
+| `company` | `string` | Company name |
 
 Additional options from the [marked](https://marked.js.org/using_advanced) library are also supported.
 
@@ -165,39 +277,228 @@ If the output file is not specified, it will use the input filename with a `.doc
 - Footnotes
 - Task lists (checkboxes)
 
-## Image Adapter
+## Advanced Usage Examples
 
-The library provides a built-in image adapter that automatically downloads images from URLs. You can also create a custom image adapter by implementing the `ImageAdapter` interface.
-The adapter should have a `getImage` method that takes an image URL and returns a Promise that resolves to an object containing the image data.
+### Code Syntax Highlighting
 
-```ts
-const imageAdapter: (token: Tokens.Image) => Promise<null | MarkdownImageItem>
-```
-
-## Customization
-
-You can customize the styling of the generated DOCX by accessing the style components:
+Enable advanced syntax highlighting with custom themes and options:
 
 ```javascript
-import { styles, colors, classes, numbering } from 'markdown-docx';
+import markdownDocx, { Packer } from 'markdown-docx'
 
-// Example: customize docs link color
-styles.default.hyperlink.run.color = '0077cc';
-styles.markdown.code.run.color = '000000';
+const doc = await markdownDocx(markdown, {
+  codeHighlight: {
+    enabled: true,
+    theme: 'github-dark',
+    showLineNumbers: true,
+    showLanguage: true,
+    languages: ['javascript', 'typescript', 'python', 'java'],
+    defaultLanguage: 'javascript'
+  }
+})
+
+const buffer = await Packer.toBuffer(doc)
 ```
 
-You can refer to the files in `src/styles` to write your own styles.
+### Custom Document Properties
 
-- [styles.ts](./src/styles//styles.ts) - Default styles for the document
-- [colors.ts](./src/styles/colors.ts) - Color definitions
-- [markdown.ts](./src/styles/markdown.ts) - Markdown-specific styles
+Set document metadata and properties:
 
-## Browser vs Node.js
+```javascript
+import { MarkdownDocx, Packer } from 'markdown-docx'
 
-The library automatically detects the environment and uses the appropriate image adapter:
+const converter = new MarkdownDocx(markdown, {
+  document: {
+    title: 'Technical Documentation',
+    creator: 'Development Team',
+    description: 'API Reference Guide',
+    subject: 'Software Documentation',
+    keywords: 'API, REST, Documentation',
+    company: 'Your Company'
+  }
+})
 
-- In the browser, images are fetched using the Fetch API
-- In Node.js, images are downloaded using the built-in HTTP/HTTPS modules
+const doc = await converter.toDocument({
+  title: 'Override Title', // This will override the document.title above
+})
+```
+
+### Ignoring Specific Elements
+
+Skip processing certain Markdown elements:
+
+```javascript
+const doc = await markdownDocx(markdown, {
+  ignoreImage: true,      // Skip all images
+  ignoreFootnote: true,   // Skip footnotes
+  ignoreHtml: true,       // Skip inline HTML
+  gfm: false             // Disable GitHub Flavored Markdown
+})
+```
+
+### Custom Image Adapter
+
+Create a custom image adapter for specialized image processing:
+
+```typescript
+import { MarkdownImageAdapter, MarkdownImageItem } from 'markdown-docx'
+
+const customImageAdapter: MarkdownImageAdapter = async (token) => {
+  // Custom image processing logic
+  const response = await fetch(token.href)
+  const buffer = await response.arrayBuffer()
+  
+  // Process image, resize, convert format, etc.
+  const processedImage = await processImage(buffer)
+  
+  return {
+    type: 'png',
+    data: processedImage,
+    width: 800,
+    height: 600
+  }
+}
+
+const doc = await markdownDocx(markdown, {
+  imageAdapter: customImageAdapter
+})
+```
+
+### Batch Processing Multiple Files
+
+Process multiple Markdown files in Node.js:
+
+```javascript
+import fs from 'node:fs/promises'
+import path from 'node:path'
+import markdownDocx, { Packer } from 'markdown-docx'
+
+async function batchConvert(inputDir, outputDir) {
+  const files = await fs.readdir(inputDir)
+  const markdownFiles = files.filter(file => file.endsWith('.md'))
+  
+  for (const file of markdownFiles) {
+    const markdown = await fs.readFile(path.join(inputDir, file), 'utf-8')
+    const doc = await markdownDocx(markdown, {
+      codeHighlight: { enabled: true, theme: 'github-light' }
+    })
+    
+    const buffer = await Packer.toBuffer(doc)
+    const outputFile = path.join(outputDir, file.replace('.md', '.docx'))
+    await fs.writeFile(outputFile, buffer)
+    
+    console.log(`Converted ${file} -> ${path.basename(outputFile)}`)
+  }
+}
+
+await batchConvert('./docs', './output')
+```
+
+## Image Adapter Interface
+
+The library provides built-in image adapters for both browser and Node.js environments. You can create custom adapters by implementing the `MarkdownImageAdapter` interface:
+
+```typescript
+type MarkdownImageAdapter = (token: Tokens.Image) => Promise<null | MarkdownImageItem>
+
+interface MarkdownImageItem {
+  type: 'jpg' | 'png' | 'gif' | 'bmp'
+  data: Buffer | string | Uint8Array | ArrayBuffer
+  width: number
+  height: number
+}
+```
+
+### Built-in Features
+
+- **Automatic downloading** of images from URLs
+- **Format conversion** (WebP to PNG in browsers)
+- **Size detection** and optimization
+- **Caching** to avoid duplicate downloads
+- **Error handling** with graceful fallbacks
+
+## Style Customization
+
+You can customize the appearance of generated DOCX documents by modifying the built-in styles:
+
+```javascript
+import { styles, colors, classes } from 'markdown-docx'
+
+// Customize hyperlink color
+styles.default.hyperlink.run.color = '0077cc'
+
+// Customize code block styling
+styles.markdown.code.run.color = '000000'
+styles.markdown.code.run.font = 'Fira Code'
+
+// Customize heading styles
+styles.markdown.heading1.run.size = 40 // 20pt
+styles.markdown.heading1.run.color = '2E86AB'
+
+// Customize blockquote styling
+styles.markdown.blockquote.run.italics = true
+styles.markdown.blockquote.paragraph.border.left.color = 'A23B72'
+```
+
+### Available Style Objects
+
+| Style Object | Description | File Reference |
+|-------------|-------------|----------------|
+| `styles.default` | Default document styles (hyperlinks, headings) | [styles.ts](./src/styles/styles.ts) |
+| `styles.markdown` | Markdown-specific element styles | [markdown.ts](./src/styles/markdown.ts) |
+| `styles.colors` | Color palette definitions | [colors.ts](./src/styles/colors.ts) |
+| `styles.classes` | CSS class name mappings | [classes.ts](./src/styles/classes.ts) |
+
+### Custom Style Properties
+
+You can modify various style properties:
+
+```javascript
+// Text formatting
+styles.markdown.strong.run.bold = true
+styles.markdown.em.run.italics = true
+styles.markdown.del.run.strike = true
+
+// Spacing and layout
+styles.markdown.paragraph.paragraph.spacing.before = 200
+styles.markdown.paragraph.paragraph.spacing.after = 200
+
+// Borders and backgrounds
+styles.markdown.code.paragraph.border.top.color = 'E1E4E8'
+styles.markdown.code.paragraph.shading.fill = 'F6F8FA'
+
+// Font and size
+styles.markdown.code.run.font = 'Consolas'
+styles.markdown.code.run.size = 20 // 10pt
+```
+
+## Environment Compatibility
+
+The library automatically detects the runtime environment and adapts accordingly:
+
+### Browser Environment
+
+- **Image Processing**: Uses Fetch API for downloading images
+- **WebP Support**: Automatic conversion to PNG using Canvas API
+- **Bundle Size**: Optimized browser bundle with tree-shaking
+- **Async Operations**: Non-blocking with Web Workers support
+
+### Node.js Environment
+
+- **Image Processing**: Uses built-in HTTP/HTTPS modules
+- **File System**: Direct file system access for local images
+- **Performance**: Optimized for server-side batch processing
+- **Memory Management**: Efficient buffer handling for large files
+
+### Key Differences
+
+| Feature | Browser | Node.js |
+|---------|---------|---------|
+| Image Download | Fetch API | HTTP/HTTPS modules |
+| WebP Support | Canvas conversion | Not supported (logs warning) |
+| Local Files | Not supported | Direct file access |
+| Bundle Size | ~2MB (minified) | Full feature set |
+| Performance | Limited by browser | Full system resources |
 
 ## Examples
 
