@@ -217,6 +217,7 @@ const sections = await converter.toSection()
 | `gfm` | `boolean` | `true` | 启用 GitHub 风格 Markdown 支持 |
 | `document` | `IPropertiesOptions` | `{}` | 文档元数据和属性 |
 | `codeHighlight` | `CodeHighlightOptions` | `{}` | 代码语法高亮配置 |
+| `imageSize` | `ImageSizeOptions` | `{}` | 图片尺寸和缩放配置 |
 
 ### CodeHighlightOptions
 
@@ -229,6 +230,15 @@ const sections = await converter.toSection()
 | `showLanguage` | `boolean` | `false` | 在代码块上方显示语言标签 |
 | `autoDetect` | `boolean` | `true` | 自动检测编程语言 |
 | `defaultLanguage` | `string` | `'plaintext'` | 未指定代码块的后备语言 |
+
+### ImageSizeOptions
+
+| 选项 | 类型 | 默认值 | 说明 |
+|--------|------|---------|-------------|
+| `maxWidth` | `number` | `600` | 图片最大宽度（像素） |
+| `maxHeight` | `number` | `400` | 图片最大高度（像素） |
+| `minWidth` | `number` | `50` | 极小图片的最小宽度 |
+| `minHeight` | `number` | `50` | 极小图片的最小高度 |
 
 ### 文档属性 (IPropertiesOptions)
 
@@ -280,6 +290,9 @@ pnpm run test:watch
 
 # 运行测试并生成覆盖率报告
 pnpm run test:coverage
+
+# 转换 markdown 为 DOCX（开发用）
+pnpm convert -i input.md -o output.docx
 ```
 
 ### 发布管理
@@ -377,6 +390,21 @@ const doc = await markdownDocx(markdown, {
   ignoreFootnote: true,   // 跳过脚注
   ignoreHtml: true,       // 跳过内联 HTML
   gfm: false             // 禁用 GitHub 风格 Markdown
+})
+```
+
+### 自定义图片大小
+
+控制生成 DOCX 中的图片尺寸：
+
+```javascript
+const doc = await markdownDocx(markdown, {
+  imageSize: {
+    maxWidth: 800,    // 大图片将被缩小
+    maxHeight: 600,   // 保持宽高比
+    minWidth: 100,    // 极小图片将被放大
+    minHeight: 80     // 确保可读性
+  }
 })
 ```
 

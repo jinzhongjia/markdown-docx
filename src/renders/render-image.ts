@@ -27,12 +27,41 @@ export function renderImage(render: MarkdownDocx, block: Tokens.Image, attr: ITe
   }
 
   try {
+    // Get image size options from configuration
+    const sizeOptions = render.options.imageSize || {}
+    const maxWidth = sizeOptions.maxWidth || 600
+    const maxHeight = sizeOptions.maxHeight || 400
+    const minWidth = sizeOptions.minWidth || 50
+    const minHeight = sizeOptions.minHeight || 50
+    
+    let { width, height } = image
+    
+    // Scale down if image is too large
+    if (width > maxWidth || height > maxHeight) {
+      const widthRatio = maxWidth / width
+      const heightRatio = maxHeight / height
+      const ratio = Math.min(widthRatio, heightRatio)
+      
+      width = Math.round(width * ratio)
+      height = Math.round(height * ratio)
+    }
+    
+    // Ensure minimum size for very small images
+    if (width < minWidth && height < minHeight) {
+      const widthRatio = minWidth / width
+      const heightRatio = minHeight / height
+      const ratio = Math.max(widthRatio, heightRatio)
+      
+      width = Math.round(width * ratio)
+      height = Math.round(height * ratio)
+    }
+    
     return new ImageRun({
       type: image.type,
       data: image.data,
       transformation: {
-        width: image.width,
-        height: image.height,
+        width: width,
+        height: height,
       },
       altText: {
         title: block.title || block.text,

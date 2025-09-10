@@ -62,32 +62,40 @@ const ImageTypeWhitelist = new Set(['jpg', 'png', 'gif', 'bmp', 'webp'])
 
 export function getImageExtension(filename: string = '', mime?: string | null): MarkdownImageType | null {
   let ext = ''
-  switch (mime) {
-    case 'image/jpeg':
-      ext = 'jpg'
-      break
-    case 'image/png':
-      ext = 'png'
-      break
-    case 'image/gif':
-      ext = 'gif'
-      break
-    case 'image/bmp':
-      ext = 'bmp'
-      break
-    case 'image/webp':
-      ext = 'webp'
-      break
-    case 'image/svg+xml':
-      ext = 'svg'
-      break
-    default:
-      const name = filename.split('?').pop() || ''
-      const index = name.lastIndexOf('.')
-      if (index > -1) {
-        ext = name.substring(index + 1)
-      }
-      break
+  
+  // Handle direct extension format (from image-size library)
+  if (mime && !mime.includes('/') && ImageTypeWhitelist.has(mime)) {
+    ext = mime
+  } else {
+    // Handle MIME type format
+    switch (mime) {
+      case 'image/jpeg':
+        ext = 'jpg'
+        break
+      case 'image/png':
+        ext = 'png'
+        break
+      case 'image/gif':
+        ext = 'gif'
+        break
+      case 'image/bmp':
+        ext = 'bmp'
+        break
+      case 'image/webp':
+        ext = 'webp'
+        break
+      case 'image/svg+xml':
+        ext = 'svg'
+        break
+      default:
+        // Try to extract from filename
+        const name = filename.split('?').pop() || ''
+        const index = name.lastIndexOf('.')
+        if (index > -1) {
+          ext = name.substring(index + 1).toLowerCase()
+        }
+        break
+    }
   }
 
   if (!ext) {

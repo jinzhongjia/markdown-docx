@@ -219,6 +219,7 @@ const sections = await converter.toSection()
 | `gfm` | `boolean` | `true` | Enable GitHub Flavored Markdown support |
 | `document` | `IPropertiesOptions` | `{}` | Document metadata and properties |
 | `codeHighlight` | `CodeHighlightOptions` | `{}` | Code syntax highlighting configuration |
+| `imageSize` | `ImageSizeOptions` | `{}` | Image sizing and scaling configuration |
 
 ### CodeHighlightOptions
 
@@ -231,6 +232,15 @@ const sections = await converter.toSection()
 | `showLanguage` | `boolean` | `false` | Display language label above code blocks |
 | `autoDetect` | `boolean` | `true` | Automatically detect programming language |
 | `defaultLanguage` | `string` | `'plaintext'` | Fallback language for unspecified code blocks |
+
+### ImageSizeOptions
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `maxWidth` | `number` | `600` | Maximum width for images in pixels |
+| `maxHeight` | `number` | `400` | Maximum height for images in pixels |
+| `minWidth` | `number` | `50` | Minimum width for very small images |
+| `minHeight` | `number` | `50` | Minimum height for very small images |
 
 ### Document Properties (IPropertiesOptions)
 
@@ -282,6 +292,9 @@ pnpm run test:watch
 
 # Run tests with coverage
 pnpm run test:coverage
+
+# Convert markdown to DOCX (development)
+pnpm convert -i input.md -o output.docx
 ```
 
 ### Release Management
@@ -379,6 +392,21 @@ const doc = await markdownDocx(markdown, {
   ignoreFootnote: true,   // Skip footnotes
   ignoreHtml: true,       // Skip inline HTML
   gfm: false             // Disable GitHub Flavored Markdown
+})
+```
+
+### Custom Image Sizing
+
+Control image dimensions in the generated DOCX:
+
+```javascript
+const doc = await markdownDocx(markdown, {
+  imageSize: {
+    maxWidth: 800,    // Larger images will be scaled down
+    maxHeight: 600,   // Maintain aspect ratio
+    minWidth: 100,    // Very small images will be scaled up
+    minHeight: 80     // Ensure readability
+  }
 })
 ```
 

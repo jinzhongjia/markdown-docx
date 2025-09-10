@@ -1,4 +1,4 @@
-import imagesize, { disableTypes, imageSize } from 'image-size'
+import * as imageSize from 'image-size'
 import { Tokens } from 'marked'
 import fs from 'node:fs/promises'
 import http from 'node:http'
@@ -16,7 +16,7 @@ export const downloadImage: MarkdownImageAdapter = async function (token: Tokens
   try {
     const buffer = await loadImage(src)
 
-    const { width, height, type } = imagesize(buffer)
+    const { width, height, type } = imageSize.default(buffer)
 
     const supportType = getImageExtension(src, type)
 
@@ -53,7 +53,7 @@ function loadImage (src: string) {
         })
         res.on('end', () => {
           const buffer = Buffer.concat(chunks)
-          disableTypes(['svg', 'webp'])
+          imageSize.disableTypes(['svg', 'webp'])
           resolve(buffer)
         })
         res.on('error', (err) => {

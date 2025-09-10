@@ -17,6 +17,32 @@ export type MarkdownImageItem = {
 
 export type MarkdownImageAdapter = (token: Tokens.Image) => Promise<null | MarkdownImageItem>
 
+export interface ImageSizeOptions {
+  /**
+   * Maximum width for images in pixels
+   * @default 600
+   */
+  maxWidth?: number
+
+  /**
+   * Maximum height for images in pixels  
+   * @default 400
+   */
+  maxHeight?: number
+
+  /**
+   * Minimum width for very small images in pixels
+   * @default 50
+   */
+  minWidth?: number
+
+  /**
+   * Minimum height for very small images in pixels
+   * @default 50
+   */
+  minHeight?: number
+}
+
 export interface MarkdownDocxOptions extends MarkedOptions {
   imageAdapter?: MarkdownImageAdapter
 
@@ -47,6 +73,11 @@ export interface MarkdownDocxOptions extends MarkedOptions {
    * Code highlighting options
    */
   codeHighlight?: CodeHighlightOptions
+
+  /**
+   * Image sizing options
+   */
+  imageSize?: ImageSizeOptions
 }
 
 export type IBlockToken =

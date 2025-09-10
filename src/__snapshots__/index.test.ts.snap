@@ -3,15 +3,15 @@
 exports[`render > render blockquotes 1`] = `
 "<Paragraph style="MdBlockquote"><TextRun>Blockquotes are very handy in email to emulate reply text.</TextRun>
 <TextRun break="1">This line is part of the same quote.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Quote break.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdBlockquote"><TextRun>This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can </TextRun>
 <TextRun style="MdEm" italics="true">put</TextRun>
 <TextRun> </TextRun>
 <TextRun style="MdStrong" bold="true">Markdown</TextRun>
 <TextRun> into a blockquote.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdBlockquote"><TextRun>Blockquotes can also be nested...</TextRun></Paragraph>
 <Paragraph style="MdBlockquote"><TextRun>...by using additional greater-than signs right next to each other...</TextRun></Paragraph>
 <Paragraph style="MdBlockquote"><TextRun>...or with spaces between arrows.</TextRun></Paragraph>"
@@ -41,18 +41,18 @@ exports[`render > render footnotes 1`] = `
 <Paragraph style="MdParagraph"><TextRun>Footnote 1 link</TextRun>
 <FootnoteReferenceRun></FootnoteReferenceRun>
 <TextRun>.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Footnote 2 link</TextRun>
 <FootnoteReferenceRun></FootnoteReferenceRun>
 <TextRun>.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Inline footnote^[Text of inline footnote] definition.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Duplicated footnote reference</TextRun>
 <FootnoteReferenceRun></FootnoteReferenceRun>
 <TextRun>.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>"
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>"
 `;
 
 exports[`render > render heading 1`] = `
@@ -66,17 +66,17 @@ exports[`render > render heading 1`] = `
 
 exports[`render > render horizontal rules 1`] = `
 "<Paragraph style="MdParagraph"><TextRun>Three or more...</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph thematicBreak="true" style="MdHr"></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Hyphens</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph thematicBreak="true" style="MdHr"></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Asterisks</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph thematicBreak="true" style="MdHr"></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Underscores</TextRun></Paragraph>"
 `;
 
@@ -84,26 +84,26 @@ exports[`render > render images 1`] = `
 "<Paragraph style="MdParagraph"><TextRun>Inline-style:
 </TextRun>
 <ImageRun type="png" transformation-width="104" transformation-height="126" altText-title="Logo Title Text 1" altText-description="alt text" altText-name="alt text"></ImageRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Reference-style:
 </TextRun>
 <ImageRun type="png" transformation-width="104" transformation-height="126" altText-title="Logo Title Text 2" altText-description="alt text" altText-name="alt text"></ImageRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>"
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>"
 `;
 
 exports[`render > render links 1`] = `
 "<Paragraph style="MdParagraph"><ExternalHyperlink link="https://www.google.com"><TextRun style="MdLink">I'm an inline-style link</TextRun></ExternalHyperlink></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><ExternalHyperlink link="https://www.google.com"><TextRun style="MdLink">I'm an inline-style link with title</TextRun></ExternalHyperlink></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><ExternalHyperlink link="https://www.mozilla.org"><TextRun style="MdLink">I'm a reference-style link</TextRun></ExternalHyperlink></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><ExternalHyperlink link="../blob/master/LICENSE"><TextRun style="MdLink">I'm a relative reference to a repository file</TextRun></ExternalHyperlink></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>"
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>"
 `;
 
 exports[`render > render list 1`] = `
-"<Paragraph style="MdSpace"></Paragraph>
+"<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph numbering-level="0" numbering-reference="numbering-points" style="MdListItem"><TextRun>Make my changes</TextRun></Paragraph>
 <Paragraph numbering-level="1" numbering-reference="numbering-points" style="MdListItem"><TextRun>Fix bug</TextRun></Paragraph>
 <Paragraph numbering-level="1" numbering-reference="numbering-points" style="MdListItem"><TextRun>Improve formatting</TextRun></Paragraph>
@@ -137,18 +137,18 @@ exports[`render > render paragraph 1`] = `
 <TextRun> or </TextRun>
 <TextRun style="MdEm" italics="true">underscores</TextRun>
 <TextRun>.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Strong emphasis, aka bold, with </TextRun>
 <TextRun style="MdStrong" bold="true">asterisks</TextRun>
 <TextRun> or </TextRun>
 <TextRun style="MdStrong" bold="true">underscores</TextRun>
 <TextRun>.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Combined emphasis with </TextRun>
 <TextRun style="MdStrong" bold="true">asterisks and </TextRun>
 <TextRun style="MdEm" italics="true" bold="true">underscores</TextRun>
 <TextRun>.</TextRun></Paragraph>
-<Paragraph style="MdSpace"></Paragraph>
+<Paragraph style="MdSpace" spacing-before="0" spacing-after="60"></Paragraph>
 <Paragraph style="MdParagraph"><TextRun>Strikethrough uses two tildes. </TextRun>
 <TextRun style="MdDel" strike="true">Scratch this.</TextRun></Paragraph>"
 `;

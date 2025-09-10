@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A powerful TypeScript library that converts Markdown files to DOCX format with high fidelity",
   "scripts": {
-    "dev": "tsup --stub",
+    "dev": "tsup --watch",
     "build": "tsup",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -13,7 +13,8 @@
     "release:patch": "release-it patch",
     "release:minor": "release-it minor",
     "release:major": "release-it major",
-    "release:dry": "release-it --dry-run"
+    "release:dry": "release-it --dry-run",
+    "convert": "node bin/markdown-docx.js"
   },
   "type": "module",
   "main": "dist/index.cjs",

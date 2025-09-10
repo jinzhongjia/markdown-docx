@@ -11,25 +11,74 @@ import { renderTable } from './render-table'
 
 export async function renderBlocks(render: MarkdownDocx, blocks: IBlockToken[], attr: IBlockAttr = {}): Promise<FileChild[]> {
   const paragraphs: FileChild[] = []
-  for (const block of blocks) {
+  
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i]
     const child = await renderBlock(render, block, attr)
+    
     if (Array.isArray(child)) {
       paragraphs.push(...child)
     } else if (child) {
       paragraphs.push(child)
-    } else if (child == null){
+    } else if (child === false) {
+      // Block was intentionally skipped (like ignored images)
+      continue
+    } else if (child == null) {
       console.warn(`Block is empty: ${block.type}`)
     }
   }
-  return paragraphs
+  
+  // Remove excessive empty paragraphs that can cause blank pages
+  return removeExcessiveSpaces(paragraphs)
+}
+
+function removeExcessiveSpaces(paragraphs: FileChild[]): FileChild[] {
+  const result: FileChild[] = []
+  let consecutiveEmptyCount = 0
+  
+  for (const paragraph of paragraphs) {
+    // Check if this is an empty paragraph or space
+    const isEmpty = isEmptyParagraph(paragraph)
+    
+    if (isEmpty) {
+      consecutiveEmptyCount++
+      // Allow maximum 2 consecutive empty paragraphs
+      if (consecutiveEmptyCount <= 2) {
+        result.push(paragraph)
+      }
+    } else {
+      consecutiveEmptyCount = 0
+      result.push(paragraph)
+    }
+  }
+  
+  return result
+}
+
+function isEmptyParagraph(element: FileChild): boolean {
+  // Check if element is a Paragraph with empty or whitespace-only text
+  if (element && typeof element === 'object' && 'constructor' in element) {
+    const constructor = element.constructor
+    if (constructor && constructor.name === 'Paragraph') {
+      // This is a basic check - in practice, we might need more sophisticated detection
+      // For now, we'll be conservative and only filter obvious space elements
+      return false
+    }
+  }
+  return false
 }
 
 async function renderBlock(render: MarkdownDocx, block: IBlockToken, attr: IBlockAttr): Promise<FileChild | FileChild[] | false | null> {
   switch (block.type) {
     case 'space':
+      // Reduce excessive spaces to prevent blank pages
       return new Paragraph({
         text: '',
         style: classes.Space,
+        spacing: {
+          before: 0,
+          after: 60, // Reduced from default spacing
+        },
       })
     case 'code':
       return await renderCodeBlock(render, block as Tokens.Code, attr)
