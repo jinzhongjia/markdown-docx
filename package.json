@@ -14,7 +14,10 @@
     "release:minor": "release-it minor",
     "release:major": "release-it major",
     "release:dry": "release-it --dry-run",
-    "convert": "node bin/markdown-docx.js"
+    "convert": "node bin/markdown-docx.js",
+    "server": "pnpm exec tsx server.ts",
+    "server:js": "node server.js",
+    "start": "pnpm exec tsx server.ts"
   },
   "type": "module",
   "main": "dist/index.cjs",
@@ -66,9 +69,12 @@
   "packageManager": "pnpm@10.6.5",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.52.3",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.14.0",
     "release-it": "^19.0.4",
     "tsup": "^8.4.0",
+    "tsx": "^4.20.5",
     "typescript": "^5.8.3",
     "vitest": "^3.1.1"
   },
@@ -76,8 +82,10 @@
     "@tailwindcss/vite": "^4.1.4",
     "commander": "^13.1.0",
     "docx": "^9.3.0",
+    "express": "^5.1.0",
     "image-size": "^2.0.2",
     "marked": "^15.0.8",
+    "multer": "^2.0.2",
     "shiki": "^3.12.2"
   }
 }
