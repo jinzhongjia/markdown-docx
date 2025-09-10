@@ -272,8 +272,11 @@ pnpm run dev
 # 构建项目
 pnpm run build
 
-# 运行测试
+# 运行测试（单次运行）
 pnpm run test
+
+# 运行测试（监视模式）
+pnpm run test:watch
 
 # 运行测试并生成覆盖率报告
 pnpm run test:coverage
