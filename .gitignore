@@ -56,6 +56,9 @@ yarn.lock
 # Documents
 My Document.docx
 
+# Test output files
+tests/**/*.docx
+
 # Temporary folder
 tmp
 
