@@ -274,8 +274,11 @@ pnpm run dev
 # Build the project
 pnpm run build
 
-# Run tests
+# Run tests (single run)
 pnpm run test
+
+# Run tests in watch mode
+pnpm run test:watch
 
 # Run tests with coverage
 pnpm run test:coverage

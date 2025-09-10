@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "tsup --stub",
     "build": "tsup",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "prepublishOnly": "pnpm run build",
     "release": "release-it",
