@@ -359,6 +359,14 @@ const doc = await markdownDocx(markdown, {
 const buffer = await Packer.toBuffer(doc)
 ```
 
+The Shiki engine is shared process-wide; individual conversions do not need cleanup. If an application unloads the converter without exiting the process, wait for active conversions to finish and then release the shared engine:
+
+```javascript
+import { disposeSharedHighlighter } from '@jinzhongjia/markdown-docx'
+
+await disposeSharedHighlighter()
+```
+
 ### Custom Document Properties
 
 Set document metadata and properties:

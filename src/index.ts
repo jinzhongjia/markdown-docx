@@ -3,6 +3,7 @@ import { Packer } from 'docx'
 import { MarkdownDocx } from './MarkdownDocx'
 import { styles } from './styles'
 import { MarkdownDocxOptions } from './types'
+export { disposeSharedHighlighter } from './services/syntax-highlighter'
 
 export * from "./types"
 

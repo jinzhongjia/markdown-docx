@@ -1,8 +1,8 @@
-import { 
-  BundledLanguage, 
-  BundledTheme, 
-  createHighlighter, 
-  Highlighter
+import { createHighlighter } from 'shiki'
+import type {
+  BundledLanguage,
+  BundledTheme,
+  Highlighter,
 } from 'shiki'
 
 export interface CodeHighlightOptions {
@@ -27,6 +27,111 @@ export interface HighlightedLine {
   lineNumber?: number
 }
 
+const DEFAULT_THEME: BundledTheme = 'github-light'
+const DEFAULT_LANGUAGES: BundledLanguage[] = [
+  'javascript',
+  'typescript',
+  'python',
+  'java',
+  'go',
+  'rust',
+  'cpp',
+  'c',
+  'csharp',
+  'php',
+  'ruby',
+  'swift',
+  'kotlin',
+  'html',
+  'css',
+  'scss',
+  'json',
+  'xml',
+  'yaml',
+  'markdown',
+  'sql',
+  'bash',
+  'shell',
+  'powershell',
+  'dockerfile',
+  'graphql',
+  'vue',
+  'jsx',
+  'tsx',
+]
+
+let sharedHighlighter: Highlighter | null = null
+let sharedHighlighterPromise: Promise<Highlighter> | null = null
+const languageLoads = new Map<BundledLanguage, Promise<void>>()
+const themeLoads = new Map<BundledTheme, Promise<void>>()
+
+async function getSharedHighlighter(): Promise<Highlighter> {
+  if (sharedHighlighter) return sharedHighlighter
+
+  if (!sharedHighlighterPromise) {
+    sharedHighlighterPromise = createHighlighter({
+      themes: [DEFAULT_THEME],
+      langs: ['plaintext'],
+    }).then((highlighter) => {
+      sharedHighlighter = highlighter
+      return highlighter
+    }).catch((error) => {
+      sharedHighlighterPromise = null
+      throw error
+    })
+  }
+
+  return sharedHighlighterPromise
+}
+
+function loadLanguage(
+  highlighter: Highlighter,
+  language: BundledLanguage,
+): Promise<void> {
+  if (highlighter.getLoadedLanguages().includes(language)) {
+    return Promise.resolve()
+  }
+
+  const existing = languageLoads.get(language)
+  if (existing) return existing
+
+  const pending = highlighter.loadLanguage(language)
+    .finally(() => languageLoads.delete(language))
+  languageLoads.set(language, pending)
+  return pending
+}
+
+function loadTheme(
+  highlighter: Highlighter,
+  theme: BundledTheme,
+): Promise<void> {
+  if (highlighter.getLoadedThemes().includes(theme)) {
+    return Promise.resolve()
+  }
+
+  const existing = themeLoads.get(theme)
+  if (existing) return existing
+
+  const pending = highlighter.loadTheme(theme)
+    .finally(() => themeLoads.delete(theme))
+  themeLoads.set(theme, pending)
+  return pending
+}
+
+export async function disposeSharedHighlighter(): Promise<void> {
+  const highlighter = sharedHighlighter
+  const highlighterPromise = sharedHighlighterPromise
+
+  sharedHighlighter = null
+  sharedHighlighterPromise = null
+  languageLoads.clear()
+  themeLoads.clear()
+
+  const initializedHighlighter = highlighter
+    ?? await highlighterPromise?.catch(() => null)
+  initializedHighlighter?.dispose()
+}
+
 export class SyntaxHighlighter {
   private highlighter: Highlighter | null = null
   private options: CodeHighlightOptions
@@ -35,38 +140,8 @@ export class SyntaxHighlighter {
   constructor(options: CodeHighlightOptions = {}) {
     this.options = {
       enabled: true,
-      theme: 'github-light',
-      languages: [
-        'javascript',
-        'typescript', 
-        'python',
-        'java',
-        'go',
-        'rust',
-        'cpp',
-        'c',
-        'csharp',
-        'php',
-        'ruby',
-        'swift',
-        'kotlin',
-        'html',
-        'css',
-        'scss',
-        'json',
-        'xml',
-        'yaml',
-        'markdown',
-        'sql',
-        'bash',
-        'shell',
-        'powershell',
-        'dockerfile',
-        'graphql',
-        'vue',
-        'jsx',
-        'tsx',
-      ] as BundledLanguage[],
+      theme: DEFAULT_THEME,
+      languages: DEFAULT_LANGUAGES,
       showLineNumbers: false,
       showLanguage: false,
       autoDetect: true,
@@ -77,28 +152,30 @@ export class SyntaxHighlighter {
 
   async initialize(): Promise<void> {
     if (this.highlighter) return
-    if (this.initPromise) return this.initPromise
+    if (!this.initPromise) {
+      this.initPromise = this._doInitialize().catch((error) => {
+        this.initPromise = null
+        throw error
+      })
+    }
 
-    this.initPromise = this._doInitialize()
-    await this.initPromise
+    return this.initPromise
   }
 
   private async _doInitialize(): Promise<void> {
     try {
-      // Only load the languages that are actually needed
-      const langs = this.options.languages || []
-      
-      this.highlighter = await createHighlighter({
-        themes: [this.options.theme || 'github-light'],
-        langs: langs.length > 0 ? langs : ['plaintext']
-      })
+      const highlighter = await getSharedHighlighter()
+      const languages = this.options.languages || []
+      const theme = this.options.theme || DEFAULT_THEME
+
+      await Promise.all([
+        loadTheme(highlighter, theme),
+        ...languages.map(language => loadLanguage(highlighter, language)),
+      ])
+      this.highlighter = highlighter
     } catch (error) {
       console.error('[SyntaxHighlighter] Failed to initialize:', error)
-      // Fallback to plaintext if initialization fails
-      this.highlighter = await createHighlighter({
-        themes: ['github-light'],
-        langs: ['plaintext']
-      })
+      throw error
     }
   }
 
@@ -147,12 +224,9 @@ export class SyntaxHighlighter {
 
     targetLang = langAliases[targetLang.toLowerCase()] || targetLang.toLowerCase()
 
-    // Check if the language is loaded
-    const loadedLangs = this.highlighter.getLoadedLanguages()
-    if (!loadedLangs.includes(targetLang as BundledLanguage)) {
-      // Try to load the language dynamically
+    if (!this.highlighter.getLoadedLanguages().includes(targetLang as BundledLanguage)) {
       try {
-        await this.highlighter.loadLanguage(targetLang as BundledLanguage)
+        await loadLanguage(this.highlighter, targetLang as BundledLanguage)
       } catch (error) {
         console.warn(`[SyntaxHighlighter] Language "${targetLang}" not supported, falling back to plaintext`)
         targetLang = 'plaintext'
@@ -160,13 +234,9 @@ export class SyntaxHighlighter {
     }
 
     try {
-      const targetTheme = theme || this.options.theme || 'github-light'
-      
-      // Check if theme is loaded, if not load it
-      const loadedThemes = this.highlighter.getLoadedThemes()
-      if (!loadedThemes.includes(targetTheme)) {
-        await this.highlighter.loadTheme(targetTheme)
-      }
+      const targetTheme = theme || this.options.theme || DEFAULT_THEME
+
+      await loadTheme(this.highlighter, targetTheme)
 
       // Use codeToTokens with theme
       const result = this.highlighter.codeToTokens(code, {
@@ -225,6 +295,3 @@ export class SyntaxHighlighter {
     this.initPromise = null
   }
 }
-
-// Export a default instance for convenience
-export const defaultHighlighter = new SyntaxHighlighter()

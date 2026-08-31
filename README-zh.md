@@ -357,6 +357,14 @@ const doc = await markdownDocx(markdown, {
 const buffer = await Packer.toBuffer(doc)
 ```
 
+Shiki 引擎在进程内共享，单次转换无需清理。如果应用需要在不退出进程的情况下卸载转换器，请等待进行中的转换结束后释放共享引擎：
+
+```javascript
+import { disposeSharedHighlighter } from '@jinzhongjia/markdown-docx'
+
+await disposeSharedHighlighter()
+```
+
 ### 自定义文档属性
 
 设置文档元数据和属性：
